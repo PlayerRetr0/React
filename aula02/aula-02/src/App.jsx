@@ -1,10 +1,18 @@
 import './App.css'
 import { useState } from 'react'
+import Tarefa from './componests/Tarefa'
+
+
+const tarefasMock = [
+  { id: 0, tarefa: 'Tarefa 1'}, 
+  { id: 1, tarefa: 'Tarefa 2'}, 
+  { id: 2, tarefa: 'Tarefa 3'}
+]
 
 function App() {
   const[tarefa, setTarefa] = useState("")
-  const[tarefas, setTarefas] = useState([])
-  let msg = ""
+  const [tarefas, setTarefas] = useState(tarefasMock)
+  const [count, setCount] = useState(3)
 
 
   function addTarefa(){
@@ -14,14 +22,16 @@ function App() {
       //tmp.push(tarefa)
       //setTarefas(tmp)
 
-      setTarefas([...tarefas, tarefa])
-
-      console.log(tarefa)
+      setTarefas([...tarefas, {id: count, tarefa: tarefa}])
+      setCount(count + 1)
       setTarefa("")
     } else{
-     msg = <h4>digite uma tarefa valida</h4>
+    console.log("digite uma tarefa valida")
     }
 
+  }
+  function excluirTarefa(id){
+    setTarefas(tarefas.filter(item => item.id != id ))
   }
 
   return (
@@ -33,9 +43,8 @@ function App() {
     <button onClick={addTarefa}>Adicionar Tarefa</button>
 
     {tarefas.map((tarefa, index) =>{
-      return <h4 key={tarefa = index}>{tarefa}</h4>
+      return <Tarefa key={tarefa.id} tarefa={tarefa} excluir={excluirTarefa}/>
     })}
-    <h1>{msg}</h1>
     <hr />
     </>
   )
